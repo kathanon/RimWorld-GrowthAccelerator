@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+  
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName="GrowthVat"]/comps</xpath>
+    <value>
+      <li Class="CompProperties_AffectedByFacilities">
+        <linkableFacilities>
+          <li>kathanon_GrowthAccelerator_GrowthVatAccelerator</li>
+        </linkableFacilities>
+      </li>
+    </value>
+  </Operation>
+  
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName="GrowthVat"]/statBases</xpath>
+    <value>
+      <kathanon_GrowthAccelerator_GrowthVatSpeed>1</kathanon_GrowthAccelerator_GrowthVatSpeed>
+      <kathanon_GrowthAccelerator_GrowthVatNutrientUse>1</kathanon_GrowthAccelerator_GrowthVatNutrientUse>
+    </value>
+  </Operation>
+  
+</Patch>

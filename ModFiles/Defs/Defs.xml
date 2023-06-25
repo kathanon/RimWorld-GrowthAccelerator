@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>kathanon_GrowthAccelerator_GrowthVatAccelerator</defName>
+    <label>growth vat accelerator</label>
+    <description>An add-on device that accelerates the growth speed of the occupant of the attached growth vat. This speeds up growth, but consumes a lot of electricity and causes the occupant to consume much more nutrients. It must be placed directly adjacent to the growth vat. Up to four growth vat accelerators can affect the same growth vat.</description>
+    <graphicData>
+      <texPath>Things/Building/Misc/SleepAccelerator/SleepAccelerator</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <shadowData>
+        <volume>(0.55, 0.30, 0.40)</volume>
+      </shadowData>
+      <damageData>
+        <rectN>(0.078125,0.46875,0.859375,0.53125)</rectN>
+        <rectS>(0.078125,0.46875,0.859375,0.53125)</rectS>
+        <rectE>(0.125,0.46875,0.625,0.296875)</rectE>
+        <rectW>(0.25,0.46875,0.625,0.296875)</rectW>
+        <cornerTR>Damage/Corner</cornerTR>
+      </damageData>
+    </graphicData>
+    <uiIconScale>0.7</uiIconScale>
+    <defaultPlacingRot>South</defaultPlacingRot>
+    <researchPrerequisites>
+      <li>kathanon_GrowthAccelerator_GrowthVatAccelerators</li>
+    </researchPrerequisites>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.2</fillPercent>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <WorkToBuild>6000</WorkToBuild>
+      <Mass>20</Mass>
+      <Flammability>0.7</Flammability>
+    </statBases>
+    <size>(1,1)</size>
+    <costList>
+      <Steel>50</Steel>
+      <Silver>100</Silver>
+      <ComponentIndustrial>4</ComponentIndustrial>
+      <ComponentSpacer>1</ComponentSpacer>
+    </costList>
+    <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <designationCategory>Biotech</designationCategory>
+    <uiOrder>2201</uiOrder>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>BuildingsMisc</li>
+    </thingCategories>
+    <tickerType>Normal</tickerType>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>400</basePowerConsumption>
+        <idlePowerDraw>10</idlePowerDraw>
+      </li>
+      <li Class="CompProperties_FacilityInUse">
+        <compClass>GrowthAccelerator.CompFacilityActive</compClass>
+        <effectInUse>SleepAcceleratorActive</effectInUse>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Facility">
+        <compClass>GrowthAccelerator.CompFacilityFacing</compClass>
+        <statOffsets>
+          <kathanon_GrowthAccelerator_GrowthVatSpeed>0.5</kathanon_GrowthAccelerator_GrowthVatSpeed>
+          <kathanon_GrowthAccelerator_GrowthVatNutrientUse>1</kathanon_GrowthAccelerator_GrowthVatNutrientUse>
+        </statOffsets>
+        <maxSimultaneous>4</maxSimultaneous>
+      </li>
+    </comps>
+    <placeWorkers>
+      <li>PlaceWorker_ShowFacilitiesConnections</li>
+    </placeWorkers>
+  </ThingDef>
+
+  <ResearchProjectDef>
+    <defName>kathanon_GrowthAccelerator_GrowthVatAccelerators</defName>
+    <label>growth vat accelerators</label>
+    <description>Construct growth vat accelerators, that speed up growth in a growth vat.</description>
+    <techLevel>Industrial</techLevel>
+    <baseCost>1500</baseCost>
+    <researchViewX>15.00</researchViewX>
+    <researchViewY>1.50</researchViewY>
+    <requiredResearchBuilding>HiTechResearchBench</requiredResearchBuilding>
+    <prerequisites>
+      <li>Bioregeneration</li>
+      <li>GrowthVats</li>
+    </prerequisites>
+  </ResearchProjectDef>
+
+  <StatDef>
+    <defName>kathanon_GrowthAccelerator_GrowthVatSpeed</defName>
+    <label>growth speed</label>
+    <description>How fast the occupant of this growth vat grows.</description>
+    <category>Building</category>
+    <minValue>0.5</minValue>
+    <valueIfMissing>1.0</valueIfMissing>
+    <hideAtValue>1.0</hideAtValue>
+    <toStringStyle>PercentZero</toStringStyle>
+    <showIfUndefined>false</showIfUndefined>
+    <displayPriorityInCategory>4123</displayPriorityInCategory>
+    <parts>
+      <li Class="StatPart_Outdoors" /> <!-- Just to force stat to be mutable. -->
+    </parts>
+  </StatDef>
+
+  <StatDef>
+    <defName>kathanon_GrowthAccelerator_GrowthVatNutrientUse</defName>
+    <label>nutrient usage</label>
+    <description>How much nutrients the occupant of this growth vat requires, compared to the normal usage.</description>
+    <category>Building</category>
+    <minValue>0.5</minValue>
+    <valueIfMissing>1.0</valueIfMissing>
+    <hideAtValue>1.0</hideAtValue>
+    <toStringStyle>PercentZero</toStringStyle>
+    <showIfUndefined>false</showIfUndefined>
+    <displayPriorityInCategory>4124</displayPriorityInCategory>
+    <parts>
+      <li Class="StatPart_Outdoors" /> <!-- Just to force stat to be mutable. -->
+    </parts>
+  </StatDef>
+  
+</Defs>
