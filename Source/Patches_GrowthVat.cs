@@ -38,6 +38,7 @@ public static class Patches_GrowthVat {
                 yield return new CodeInstruction(OpCodes.Ldc_I4_M1);
                 yield return CodeInstruction.Call(typeof(StatExtension), nameof(StatExtension.GetStatValue));
                 yield return new CodeInstruction(OpCodes.Mul);
+                found = false;
             }
         }
     }
@@ -48,7 +49,9 @@ public static class Patches_GrowthVat {
         var ticksLeft = AccessTools.PropertyGetter(
             typeof(Building_GrowthVat),
             nameof(Building_GrowthVat.EmbryoGestationTicksRemaining));
-        var adjusted = AccessTools.Method(typeof(Patches_GrowthVat), nameof(AdjustedTicksRemaining));
+        var adjusted = AccessTools.Method(
+            typeof(Patches_GrowthVat), 
+            nameof(AdjustedTicksRemaining));
 
         foreach (var instr in orig) {
             if (instr.Calls(ticksLeft)) {
@@ -61,7 +64,7 @@ public static class Patches_GrowthVat {
 
     public static int AdjustedTicksRemaining(Building_GrowthVat vat) {
         float speed = vat.GetStatValue(MyDefOf.kathanon_GrowthAccelerator_GrowthVatSpeed);
-        return Mathf.RoundToInt(vat.EmbryoGestationTicksRemaining / speed);
+        return Mathf.Max(Mathf.RoundToInt(vat.EmbryoGestationTicksRemaining / speed), 0);
     }
 
     [HarmonyPostfix]
