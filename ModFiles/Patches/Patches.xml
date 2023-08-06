@@ -1,22 +1,40 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Patch>
   
-  <Operation Class="PatchOperationAdd">
-    <xpath>Defs/ThingDef[defName="GrowthVat"]/comps</xpath>
-    <value>
-      <li Class="CompProperties_AffectedByFacilities">
+  <Operation Class="PatchOperationConditional">
+	<xpath>/Defs/ThingDef[defName="GrowthVat"]/comps/li[@Class="CompProperties_AffectedByFacilities"]</xpath>
+
+	<match Class="GrowthAccelerator.PatchOperationAddTo">
+	  <xpath>/Defs/ThingDef[defName="GrowthVat"]/comps/li[@Class="CompProperties_AffectedByFacilities"]</xpath>
+	  <value>
         <linkableFacilities>
           <li>kathanon_GrowthAccelerator_GrowthVatAccelerator</li>
         </linkableFacilities>
-      </li>
-    </value>
+	  </value>
+	</match>
+
+	<nomatch Class="GrowthAccelerator.PatchOperationAddTo">
+      <xpath>Defs/ThingDef[defName="GrowthVat"]</xpath>
+      <value>
+        <comps>
+          <li Class="CompProperties_AffectedByFacilities">
+            <linkableFacilities>
+              <li>kathanon_GrowthAccelerator_GrowthVatAccelerator</li>
+            </linkableFacilities>
+          </li>
+        </comps>
+      </value>
+	</nomatch>
   </Operation>
   
-  <Operation Class="PatchOperationAdd">
-    <xpath>Defs/ThingDef[defName="GrowthVat"]/statBases</xpath>
+  <Operation Class="GrowthAccelerator.PatchOperationAddTo">
+    <xpath>Defs/ThingDef[defName="GrowthVat"]</xpath>
     <value>
-      <kathanon_GrowthAccelerator_GrowthVatSpeed>1</kathanon_GrowthAccelerator_GrowthVatSpeed>
-      <kathanon_GrowthAccelerator_GrowthVatNutrientUse>1</kathanon_GrowthAccelerator_GrowthVatNutrientUse>
+      <statBases>
+        <kathanon_GrowthAccelerator_GrowthVatSpeed>1</kathanon_GrowthAccelerator_GrowthVatSpeed>
+        <kathanon_GrowthAccelerator_GrowthVatNutrientUse>1</kathanon_GrowthAccelerator_GrowthVatNutrientUse>
+        <kathanon_GrowthAccelerator_GrowthVatNutrientStorage>10</kathanon_GrowthAccelerator_GrowthVatNutrientStorage>
+      </statBases>
     </value>
   </Operation>
   

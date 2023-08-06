@@ -77,6 +77,23 @@ public static class Patches_GrowthVat {
         ___startTick -= ticks;
     }
 
+    [HarmonyTranspiler]
+    [HarmonyPatch(nameof(Building_GrowthVat.NutritionNeeded), MethodType.Getter)]
+    public static IEnumerable<CodeInstruction> NutritionNeeded_Get_Transpiler(IEnumerable<CodeInstruction> orig) {
+        float? constVal = 10;
+        foreach (var instr in orig) {
+            if (instr.opcode == OpCodes.Ldc_R4 && instr.operand is float val && val == constVal) {
+                yield return new CodeInstruction(OpCodes.Ldarg_0).MoveLabelsFrom(instr);
+                yield return CodeInstruction.Call(typeof(Patches_GrowthVat), nameof(StorageSpace));
+            } else {
+                yield return instr;
+            }
+        }
+    }
+
+    public static float StorageSpace(Building_GrowthVat vat) 
+        => vat.GetStatValue(MyDefOf.kathanon_GrowthAccelerator_GrowthVatNutrientStorage);
+
     private class Remainder {
         public float value;
     }

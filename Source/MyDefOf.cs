@@ -11,4 +11,6 @@ public static class MyDefOf {
     public static StatDef kathanon_GrowthAccelerator_GrowthVatSpeed;
 
     public static StatDef kathanon_GrowthAccelerator_GrowthVatNutrientUse;
+
+    public static StatDef kathanon_GrowthAccelerator_GrowthVatNutrientStorage;
 }

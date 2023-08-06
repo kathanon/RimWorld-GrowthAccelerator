@@ -37,20 +37,10 @@ public class CompFacilityActive : ThingComp {
 
     private void DoTick() {
         List<Thing> list = parent.TryGetComp<CompFacility>()?.LinkedBuildings;
-        if (list == null) {
-            return;
-        }
-
-        CompPowerTrader compPowerTrader = parent.TryGetComp<CompPowerTrader>();
-        Thing thing = null;
-        foreach (Thing item in list) {
-            if (compPowerTrader.PowerOn && BuildingInUse(item)) {
-                thing = item;
-                break;
-            }
-        }
-
-        bool on = thing != null;
+        if (list.NullOrEmpty()) return;
+        
+        CompPowerTrader power = parent.TryGetComp<CompPowerTrader>();
+        bool on = power.PowerOn && BuildingInUse(list.First());
 
         if (parent.IsHashIntervalTick(250)) {
             var comp = parent.TryGetComp<CompPowerTrader>();
@@ -61,12 +51,13 @@ public class CompFacilityActive : ThingComp {
 
         if (Props.effectInUse == null) return;
         if (on) {
+            var target = new TargetInfo(parent.Position + parent.Rotation.FacingCell, parent.Map);
             if (effecterInUse == null) {
                 effecterInUse = Props.effectInUse.Spawn();
-                effecterInUse.Trigger(parent, thing);
+                effecterInUse.Trigger(parent, target);
             }
 
-            effecterInUse.EffectTick(parent, thing);
+            effecterInUse.EffectTick(parent, target);
         }
         if (!on && effecterInUse != null) {
             effecterInUse.Cleanup();

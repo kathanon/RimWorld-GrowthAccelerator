@@ -4,9 +4,9 @@
   <ThingDef ParentName="BuildingBase">
     <defName>kathanon_GrowthAccelerator_GrowthVatAccelerator</defName>
     <label>growth vat accelerator</label>
-    <description>An add-on device that accelerates the growth speed of the occupant of the attached growth vat. This speeds up growth, but consumes a lot of electricity and causes the occupant to consume much more nutrients. It must be placed directly adjacent to the growth vat. Up to four growth vat accelerators can affect the same growth vat.</description>
+    <description>An add-on device that accelerates the growth speed of the occupant of the attached growth vat. This speeds up growth, but consumes a lot of electricity and causes the occupant to consume much more nutrients. It must be placed directly adjacent to and facing the growth vat. Up to five growth vat accelerators can affect the same growth vat.</description>
     <graphicData>
-      <texPath>Things/Building/Misc/SleepAccelerator/SleepAccelerator</texPath>
+      <texPath>kathanon_GrowthAccelerator/Buildings/GrowthAccelerator</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <shaderType>CutoutComplex</shaderType>
       <shadowData>
@@ -60,7 +60,7 @@
       </li>
       <li Class="CompProperties_FacilityInUse">
         <compClass>GrowthAccelerator.CompFacilityActive</compClass>
-        <effectInUse>SleepAcceleratorActive</effectInUse>
+        <effectInUse>kathanon_GrowthAccelerator_GrowthAcceleratorActive</effectInUse>
       </li>
       <li Class="CompProperties_Flickable"/>
       <li Class="CompProperties_Facility">
@@ -68,8 +68,9 @@
         <statOffsets>
           <kathanon_GrowthAccelerator_GrowthVatSpeed>0.5</kathanon_GrowthAccelerator_GrowthVatSpeed>
           <kathanon_GrowthAccelerator_GrowthVatNutrientUse>1</kathanon_GrowthAccelerator_GrowthVatNutrientUse>
+          <kathanon_GrowthAccelerator_GrowthVatNutrientStorage>10</kathanon_GrowthAccelerator_GrowthVatNutrientStorage>
         </statOffsets>
-        <maxSimultaneous>4</maxSimultaneous>
+        <maxSimultaneous>5</maxSimultaneous>
       </li>
     </comps>
     <placeWorkers>
@@ -103,9 +104,7 @@
     <toStringStyle>PercentZero</toStringStyle>
     <showIfUndefined>false</showIfUndefined>
     <displayPriorityInCategory>4123</displayPriorityInCategory>
-    <parts>
-      <li Class="StatPart_Outdoors" /> <!-- Just to force stat to be mutable. -->
-    </parts>
+    <workerClass>GrowthAccelerator.MutableStatWorker</workerClass>
   </StatDef>
 
   <StatDef>
@@ -119,9 +118,55 @@
     <toStringStyle>PercentZero</toStringStyle>
     <showIfUndefined>false</showIfUndefined>
     <displayPriorityInCategory>4124</displayPriorityInCategory>
-    <parts>
-      <li Class="StatPart_Outdoors" /> <!-- Just to force stat to be mutable. -->
-    </parts>
+    <workerClass>GrowthAccelerator.MutableStatWorker</workerClass>
   </StatDef>
+
+  <StatDef>
+    <defName>kathanon_GrowthAccelerator_GrowthVatNutrientStorage</defName>
+    <label>nutrient storage</label>
+    <description>How much nutrients can be stored in this this growth vat and its attached facilities.</description>
+    <category>Building</category>
+    <minValue>10</minValue>
+    <valueIfMissing>10</valueIfMissing>
+    <toStringStyle>FloatOne</toStringStyle>
+    <showIfUndefined>false</showIfUndefined>
+    <displayPriorityInCategory>4125</displayPriorityInCategory>
+    <workerClass>GrowthAccelerator.MutableStatWorker</workerClass>
+  </StatDef>
+  
+  <EffecterDef>
+    <defName>kathanon_GrowthAccelerator_GrowthAcceleratorActive</defName>
+    <children>
+      <li>
+        <subEffecterClass>SubEffecter_Sustainer</subEffecterClass>
+        <soundDef>SleepAcceleratorActive_Operating</soundDef>
+      </li>
+      <li>
+        <subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+        <fleckDef>kathanon_GrowthAccelerator_GrowthAccelerator</fleckDef>
+        <spawnLocType>OnSource</spawnLocType>
+        <scale>0.45</scale>
+        <positionOffset>(0,0,0.1)</positionOffset>
+        <ticksBetweenMotes>300</ticksBetweenMotes>
+        <speed>0.25</speed>
+        <angle>0</angle>
+        <fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+      </li>
+    </children>
+  </EffecterDef>
+
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>kathanon_GrowthAccelerator_GrowthAccelerator</defName>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>3</fadeInTime>
+    <solidTime>1</solidTime>
+    <fadeOutTime>0.15</fadeOutTime>
+    <growthRate>0.25</growthRate>
+    <graphicData>
+      <texPath>Things/Mote/BrightFlash</texPath>
+      <color>(0.75, 0.10, 0.15, 0.6)</color>
+      <shaderType>MoteGlow</shaderType>
+    </graphicData>
+  </FleckDef>
   
 </Defs>
